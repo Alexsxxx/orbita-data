@@ -7,6 +7,7 @@ the app asks this site, never the upstream archives per device.
 | File | Job | Schedule | Source |
 |---|---|---|---|
 | `exoplanets.json.gz` | `exoplanets.yml` | weekly, Fridays 05:10 UTC | NASA Exoplanet Archive (`pscomppars`) |
+| `neighbourhood.bin` | by hand, once per Gaia release (`tool/build_neighbourhood.py`) | - | ESA Gaia DR3 (DR4 from 2026-12-02), Hipparcos for the brightest |
 | `light_curves.json.gz` | `light-curves.yml` | monthly, the 3rd, 06:30 UTC | TESS via MAST; ephemerides from the archive |
 
 The generators live in the private Orbita repo (`tool/`). Each job checks
