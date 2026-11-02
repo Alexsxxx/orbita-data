@@ -1,0 +1,63 @@
+# Exoplanets: every confirmed planet and its host, to
+#   https://alexsxxx.github.io/orbita-data/exoplanets.json.gz
+# Generator: tool/build_exoplanets.py in the private Orbita repo - read its
+# docstring for what is kept and why every value carries its source.
+#
+# Weekly: the NASA Exoplanet Archive updates on Thursdays. One TAP query,
+# about ten seconds; Python standard library only, so no Flutter and no pip.
+# The diff against last week is what "new exoplanets this week" will read.
+name: exoplanets
+
+on:
+  schedule:
+    - cron: '10 5 * * 5'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Orbita (generator lives here)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/Orbita
+          ssh-key: ${{ secrets.ORBITA_READ_KEY }}
+          path: orbita
+          sparse-checkout: tool
+
+      - name: Checkout orbita-data (publish target)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/orbita-data
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          path: pages-repo
+
+      # Exits non-zero without writing when the archive fails or answers
+      # with too few planets, so nothing bad is ever published.
+      - name: Build exoplanets.json.gz
+        run: python3 -I orbita/tool/build_exoplanets.py pages-repo/exoplanets.json.gz
+
+      - name: Commit & push
+        working-directory: pages-repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add exoplanets.json.gz
+          if git diff --cached --quiet -- exoplanets.json.gz; then
+            echo "exoplanets.json.gz unchanged - nothing to publish."
+          else
+            git commit -m "Update exoplanets.json.gz ($(date -u +%FT%TZ))"
+            for try in 1 2 3; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              echo "push race, retrying ($try)"
+              sleep 10
+            done
+          fi
