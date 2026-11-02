@@ -7,6 +7,7 @@ the app asks this site, never the upstream archives per device.
 | File | Job | Schedule | Source |
 |---|---|---|---|
 | `exoplanets.json.gz` | `exoplanets.yml` | weekly, Fridays 05:10 UTC | NASA Exoplanet Archive (`pscomppars`) |
+| `light_curves.json.gz` | `light-curves.yml` | monthly, the 3rd, 06:30 UTC | TESS via MAST; ephemerides from the archive |
 
 The generators live in the private Orbita repo (`tool/`). Each job checks
 Orbita out with `ORBITA_READ_KEY` (a read-only deploy key there) and pushes

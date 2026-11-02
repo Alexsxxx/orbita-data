@@ -1,0 +1,61 @@
+# Light curves: TESS transits of the planets Orbita writes about, to
+#   https://alexsxxx.github.io/orbita-data/light_curves.json.gz
+# Generator: tool/build_light_curves.py in the private Orbita repo - its
+# docstring says what is folded, how, and why nothing is fitted.
+#
+# Monthly: TESS adds a sector about every 27 days. A few hundred MB from
+# MAST per run (up to four 2 MB sectors per planet), standard-library
+# Python only. Fails without publishing when fewer than five curves come out.
+name: light-curves
+
+on:
+  schedule:
+    - cron: '30 6 3 * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout Orbita (generator lives here)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/Orbita
+          ssh-key: ${{ secrets.ORBITA_READ_KEY }}
+          path: orbita
+          sparse-checkout: tool
+
+      - name: Checkout orbita-data (publish target)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/orbita-data
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          path: pages-repo
+
+      - name: Build light_curves.json.gz
+        run: python3 -I orbita/tool/build_light_curves.py pages-repo/light_curves.json.gz
+
+      - name: Commit & push
+        working-directory: pages-repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add light_curves.json.gz
+          if git diff --cached --quiet -- light_curves.json.gz; then
+            echo "light_curves.json.gz unchanged - nothing to publish."
+          else
+            git commit -m "Update light_curves.json.gz ($(date -u +%FT%TZ))"
+            for try in 1 2 3; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              echo "push race, retrying ($try)"
+              sleep 10
+            done
+          fi
