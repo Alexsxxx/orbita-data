@@ -40,21 +40,30 @@ jobs:
           ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
           path: pages-repo
 
+      # Last week's catalogue, for what is new in this one.
+      - name: Keep last week's catalogue
+        run: cp pages-repo/exoplanets.json.gz last-week.json.gz || true
+
       # Exits non-zero without writing when the archive fails or answers
       # with too few planets, so nothing bad is ever published.
       - name: Build exoplanets.json.gz
         run: python3 -I orbita/tool/build_exoplanets.py pages-repo/exoplanets.json.gz
+
+      # The planets in this week's catalogue that were not in last week's,
+      # added to the list kept (tool/build_exoplanets_new.py).
+      - name: Update exoplanets_new.json
+        run: python3 -I orbita/tool/build_exoplanets_new.py last-week.json.gz pages-repo/exoplanets.json.gz pages-repo/exoplanets_new.json
 
       - name: Commit & push
         working-directory: pages-repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add exoplanets.json.gz
-          if git diff --cached --quiet -- exoplanets.json.gz; then
+          git add exoplanets.json.gz exoplanets_new.json
+          if git diff --cached --quiet -- exoplanets.json.gz exoplanets_new.json; then
             echo "exoplanets.json.gz unchanged - nothing to publish."
           else
-            git commit -m "Update exoplanets.json.gz ($(date -u +%FT%TZ))"
+            git commit -m "Update exoplanets.json.gz and exoplanets_new.json ($(date -u +%FT%TZ))"
             for try in 1 2 3; do
               git pull --rebase origin main && git push origin HEAD:main && break
               echo "push race, retrying ($try)"
