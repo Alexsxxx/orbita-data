@@ -1,0 +1,64 @@
+# Flybys: the asteroids passing within ten lunar distances of the Earth
+# from three days ago to a month ahead, to
+#   https://alexsxxx.github.io/orbita-data/flybys.json
+# Generator: tool/build_flybys.py in the private Orbita repo - read its
+# docstring for why Horizons' positions come with the orbits.
+#
+# Daily: new ones are found every day, often days before they pass. One
+# CNEOS query, then an SBDB and a Horizons query per body, paced a second
+# apart - two or three minutes. Python standard library only.
+name: flybys
+
+on:
+  schedule:
+    - cron: '40 5 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Orbita (generator lives here)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/Orbita
+          ssh-key: ${{ secrets.ORBITA_READ_KEY }}
+          path: orbita
+          sparse-checkout: tool
+
+      - name: Checkout orbita-data (publish target)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/orbita-data
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          path: pages-repo
+
+      # Exits non-zero without writing when CNEOS fails or too many bodies
+      # cannot be had, so nothing bad is ever published.
+      - name: Build flybys.json
+        run: python3 -I orbita/tool/build_flybys.py pages-repo/flybys.json
+
+      - name: Commit & push
+        working-directory: pages-repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add flybys.json
+          if git diff --cached --quiet -- flybys.json; then
+            echo "flybys.json unchanged - nothing to publish."
+          else
+            git commit -m "Update flybys.json ($(date -u +%FT%TZ))"
+            for try in 1 2 3; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              echo "push race, retrying ($try)"
+              sleep 10
+            done
+          fi

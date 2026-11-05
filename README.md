@@ -12,6 +12,7 @@ the app asks this site, never the upstream archives per device.
 | `neighbourhood-v3.bin` | by hand, once per Gaia release (`tool/build_neighbourhood.py`, format 3: naked-eye sky to Hp 7, open clusters from Hunt & Reffert 2023, IAU star names, links to the constellation lines) | - | as v2, plus Hunt & Reffert 2023 and the IAU WGSN list; read by the app since the landmarks. v1 and v2 stay for builds already out |
 | `dust-v1.bin` | by hand, once (`tool/build_dust.py`) | - | Edenhofer et al. 2024 3D dust map (Zenodo 10658339, CC BY 4.0), 8 pc grid within 1.25 kpc; Zucker et al. 2020 clouds, Alves et al. 2020 Radcliffe Wave (CC0) |
 | `light_curves.json.gz` | `light-curves.yml` | monthly, the 3rd, 06:30 UTC | TESS via MAST; ephemerides from the archive |
+| `flybys.json` | `flybys.yml` | daily, 05:40 UTC | NASA/JPL: CNEOS close approaches within 10 lunar distances, Small-Body Database orbits, Horizons geocentric positions round each pass |
 
 The generators live in the private Orbita repo (`tool/`). Each job checks
 Orbita out with `ORBITA_READ_KEY` (a read-only deploy key there) and pushes
