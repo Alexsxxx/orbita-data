@@ -1,0 +1,61 @@
+# Fireballs: every bolide US government sensors saw burst, with a place, to
+#   https://alexsxxx.github.io/orbita-data/fireballs.json
+# Generator: tool/build_fireballs.py in the private Orbita repo - read its
+# docstring for what is kept.
+#
+# Daily: new events appear weeks after they happen. One query, seconds.
+name: fireballs
+
+on:
+  schedule:
+    - cron: '50 6 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Orbita (generator lives here)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/Orbita
+          ssh-key: ${{ secrets.ORBITA_READ_KEY }}
+          path: orbita
+          sparse-checkout: tool
+
+      - name: Checkout orbita-data (publish target)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/orbita-data
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          path: pages-repo
+
+      # Exits non-zero without writing when the API fails or answers short, so
+      # nothing bad is ever published.
+      - name: Build fireballs.json
+        run: python3 -I orbita/tool/build_fireballs.py pages-repo/fireballs.json
+
+      - name: Commit & push
+        working-directory: pages-repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add fireballs.json
+          if git diff --cached --quiet -- fireballs.json; then
+            echo "fireballs.json unchanged - nothing to publish."
+          else
+            git commit -m "Update fireballs.json ($(date -u +%FT%TZ))"
+            for try in 1 2 3; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              echo "push race, retrying ($try)"
+              sleep 10
+            done
+          fi

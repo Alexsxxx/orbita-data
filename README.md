@@ -14,6 +14,7 @@ the app asks this site, never the upstream archives per device.
 | `light_curves.json.gz` | `light-curves.yml` | monthly, the 3rd, 06:30 UTC | TESS via MAST; ephemerides from the archive |
 | `flybys.json` | `flybys.yml` | daily, 05:40 UTC | NASA/JPL: CNEOS close approaches within 10 lunar distances, Small-Body Database orbits, Horizons geocentric positions round each pass |
 | `jwst.json` | `jwst.yml` | daily, 06:20 UTC | STScI JWST observing schedules (this week and next); target positions from MAST, else MAST's name resolver |
+| `fireballs.json` | `fireballs.yml` | daily, 06:50 UTC | NASA/JPL CNEOS fireball data (bolides reported by US government sensors since 1988, with a place) |
 
 The generators live in the private Orbita repo (`tool/`). Each job checks
 Orbita out with `ORBITA_READ_KEY` (a read-only deploy key there) and pushes
