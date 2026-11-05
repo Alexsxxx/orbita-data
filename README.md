@@ -13,6 +13,7 @@ the app asks this site, never the upstream archives per device.
 | `dust-v1.bin` | by hand, once (`tool/build_dust.py`) | - | Edenhofer et al. 2024 3D dust map (Zenodo 10658339, CC BY 4.0), 8 pc grid within 1.25 kpc; Zucker et al. 2020 clouds, Alves et al. 2020 Radcliffe Wave (CC0) |
 | `light_curves.json.gz` | `light-curves.yml` | monthly, the 3rd, 06:30 UTC | TESS via MAST; ephemerides from the archive |
 | `flybys.json` | `flybys.yml` | daily, 05:40 UTC | NASA/JPL: CNEOS close approaches within 10 lunar distances, Small-Body Database orbits, Horizons geocentric positions round each pass |
+| `jwst.json` | `jwst.yml` | daily, 06:20 UTC | STScI JWST observing schedules (this week and next); target positions from MAST, else MAST's name resolver |
 
 The generators live in the private Orbita repo (`tool/`). Each job checks
 Orbita out with `ORBITA_READ_KEY` (a read-only deploy key there) and pushes

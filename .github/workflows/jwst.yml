@@ -1,0 +1,63 @@
+# JWST: what the James Webb Space Telescope observes this week and next, to
+#   https://alexsxxx.github.io/orbita-data/jwst.json
+# Generator: tool/build_jwst.py in the private Orbita repo - read its
+# docstring for where the positions come from and which are left empty.
+#
+# Daily: STScI publishes a week's schedule ahead and replaces it when plans
+# change. Two schedule files, a few MAST queries and name lookups - a
+# minute or two. Python standard library only.
+name: jwst
+
+on:
+  schedule:
+    - cron: '20 6 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Orbita (generator lives here)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/Orbita
+          ssh-key: ${{ secrets.ORBITA_READ_KEY }}
+          path: orbita
+          sparse-checkout: tool
+
+      - name: Checkout orbita-data (publish target)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/orbita-data
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          path: pages-repo
+
+      # Exits non-zero without writing when the schedule cannot be had, so
+      # nothing bad is ever published.
+      - name: Build jwst.json
+        run: python3 -I orbita/tool/build_jwst.py pages-repo/jwst.json
+
+      - name: Commit & push
+        working-directory: pages-repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add jwst.json
+          if git diff --cached --quiet -- jwst.json; then
+            echo "jwst.json unchanged - nothing to publish."
+          else
+            git commit -m "Update jwst.json ($(date -u +%FT%TZ))"
+            for try in 1 2 3; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              echo "push race, retrying ($try)"
+              sleep 10
+            done
+          fi
