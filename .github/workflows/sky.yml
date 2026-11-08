@@ -1,0 +1,64 @@
+# Sky: everything in Earth orbit with public elements, named, to
+#   https://alexsxxx.github.io/orbita-data/sky-v2.bin.gz
+# Generator: tool/build_sky_v2.py in the private Orbita repo - read its
+# docstring for the format and what is asked of CelesTrak.
+#
+# Daily: the elements are good for days, and the app stops drawing them a
+# week after their epoch. About a dozen CelesTrak lists, each asked once,
+# two seconds apart; standard library only. SwR's own sky.bin (in
+# swr-privacy) is a different, nameless file and is not touched here.
+name: sky
+
+on:
+  schedule:
+    - cron: '20 5 * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Orbita (generator lives here)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/Orbita
+          ssh-key: ${{ secrets.ORBITA_READ_KEY }}
+          path: orbita
+          sparse-checkout: tool
+
+      - name: Checkout orbita-data (publish target)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/orbita-data
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          path: pages-repo
+
+      # Exits non-zero without writing when a list fails or comes back
+      # short, so nothing bad is ever published.
+      - name: Build sky-v2.bin.gz
+        run: python3 -I orbita/tool/build_sky_v2.py pages-repo/sky-v2.bin.gz
+
+      - name: Commit & push
+        working-directory: pages-repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add sky-v2.bin.gz
+          if git diff --cached --quiet -- sky-v2.bin.gz; then
+            echo "sky-v2.bin.gz unchanged - nothing to publish."
+          else
+            git commit -m "Update sky-v2.bin.gz ($(date -u +%FT%TZ))"
+            for try in 1 2 3; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              echo "push race, retrying ($try)"
+              sleep 10
+            done
+          fi
