@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy - Orbita</title>
+<style>
+  :root { color-scheme: light dark; }
+  body { font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+         max-width: 44rem; margin: 0 auto; padding: 2rem 1rem 4rem;
+         color: #1b1f24; background: #ffffff; }
+  h1 { font-size: 1.7rem; line-height: 1.25; margin: 0 0 .25rem; }
+  h2 { font-size: 1.15rem; margin: 2.2rem 0 .5rem; }
+  .updated { color: #667085; margin-top: 0; }
+  code { font: .9em ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+         overflow-wrap: anywhere; }
+  li { margin: .5rem 0; }
+  .address { padding-left: 1rem; border-left: 3px solid #c9ced6; }
+  @media (prefers-color-scheme: dark) {
+    body { color: #e6e9ee; background: #070b12; }
+    .updated { color: #98a2b3; }
+    .address { border-left-color: #344054; }
+  }
+</style>
+</head>
+<body>
+<h1>Privacy Policy — Orbita</h1>
+<p class="updated">Last updated: 10 November 2026</p>
+<p>Orbita ("the app") is a space explorer: the Earth, the satellites over it, the solar system and the galaxies, drawn from public scientific data. It is published by <strong>Kruen s.r.o.</strong> This policy explains what data the app does and does not handle.</p>
+<p>The publisher, and the data controller for the purposes of the GDPR, is:</p>
+<p class="address"><strong>Kruen s.r.o.</strong><br>
+K Hajku 1714, 509 01 Nova Paka, Czech Republic<br>
+Company ID (IČO): 09670157<br>
+info@kruen.cz</p>
+<h2>We do not collect personal data</h2>
+<p>The app has <strong>no accounts, no analytics, no advertising, and no tracking</strong>. The developer does not collect, store, or share any personal information about you. What the app keeps on your device is your in-app settings (the language, the layers you switched on, your favourite radio stations, where you last were in the solar system) and copies of files it has downloaded, so it need not download them again. None of it leaves the device.</p>
+<h2>Network connections</h2>
+<p>To draw what it shows, the app downloads public data. Every one of these is an ordinary web request: the server at the other end sees your IP address, as any website you visit does. No request carries an identifier of you or of your device.</p>
+<ul>
+  <li><strong>The developer's own data files</strong> — satellite orbits, the exoplanet catalogue, the stars and dust round the Sun, asteroid flybys, fireballs, the Sun's magnetic field, the James Webb telescope's schedule and the directory of internet radio stations are downloaded from the developer's static site (<code>orbita-data.kruen.app</code>, hosted on GitHub Pages). They are the same files for every user. The developer has no access to that site's visitor logs.</li>
+  <li><strong>Earth imagery</strong> — the satellite ground and the city lights download imagery tiles from NASA GIBS (<code>gibs.earthdata.nasa.gov</code>) for the part of the world on screen; the cloud layer downloads whole-planet cloud pictures from EUMETSAT (<code>view.eumetsat.int</code>); the aurora layer downloads NOAA's forecast (<code>services.swpc.noaa.gov</code>).</li>
+  <li><strong>Planets up close</strong> — looking closely at Mercury, Venus, the Earth or Mars downloads map tiles of the part on screen from NASA (<code>trek.nasa.gov</code>, and for the Earth <code>gibs.earthdata.nasa.gov</code>).</li>
+  <li><strong>The Sun and the solar wind</strong> — the Sun's space weather and the solar wind come from NOAA's Space Weather Prediction Center (<code>services.swpc.noaa.gov</code>), and pictures of the Sun from NASA's Solar Dynamics Observatory (<code>sdo.gsfc.nasa.gov</code>).</li>
+  <li><strong>Deep Space Network</strong> — which antennas are talking to which spacecraft comes from NASA/JPL's DSN Now (<code>eyes.nasa.gov</code>).</li>
+  <li><strong>Photographs on cards</strong> — the photograph on an object's card is downloaded from Wikimedia Commons (<code>upload.wikimedia.org</code>, <code>thumb.wikimedia.org</code>). The request says which picture was asked for.</li>
+  <li><strong>Internet radio</strong> — when you play a station, your device connects directly to that station's own streaming server, which is operated by the broadcaster and not by the developer. About a third of stations stream over plain, unencrypted http; this is the only unencrypted traffic the app makes. The app does not contact the Radio Browser directory itself - the station list reaches it through the developer's data files above.</li>
+</ul>
+<p>The developer does not receive or log any of this traffic.</p>
+<h2>Permissions</h2>
+<ul>
+  <li><strong>Internet</strong> — required to download the data above and to play radio streams.</li>
+  <li><strong>Approximate location</strong> — asked for only when you open the sky view, and used only to put the stars over your own horizon. The app asks the system for approximate location only. It is used on the device, is not stored, and is not sent anywhere. You can decline; the sky view then says it cannot place the stars and the rest of the app works as before.</li>
+  <li><strong>Camera</strong> — used only in the sky view, to show the constellations over what the camera sees. You can decline, or switch the camera picture off in the sky view, and the sky is then drawn on black. The picture is shown on the screen and nothing else is done with it: it is not recorded, saved or sent anywhere. The app does not use the microphone.</li>
+  <li><strong>Background audio and its notification</strong> — keep a radio station playing, with a notification to stop it, when the screen is off or another app is in front.</li>
+</ul>
+<h2>Purchases</h2>
+<p>Buying the app is handled by Google Play or the App Store under their own privacy policies. The developer receives no payment details.</p>
+<h2>Children</h2>
+<p>The app is a general-audience educational app. It is not directed at children and collects no data from anyone, of any age.</p>
+<h2>Changes</h2>
+<p>If this policy changes, the updated version will be posted at this URL with a new "last updated" date.</p>
+<h2>Contact</h2>
+<p>Questions about this policy: <strong>info@kruen.cz</strong>, or by post to Kruen s.r.o., K Hajku 1714, 509 01 Nova Paka, Czech Republic.</p>
+</body>
+</html>

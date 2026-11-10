@@ -22,6 +22,11 @@ the app asks this site, never the upstream archives per device.
 | `sun-field.json.gz` | `sun-field.yml` | every 3 h, at :25 | The Sun's coronal field lines: [SDO/HMI](http://jsoc.stanford.edu)'s near-real-time synoptic magnetogram (NASA/SDO and the HMI science team), extended by a PFSS model and traced |
 | `nebulae/1/*.bin` | by hand (`published/nebulae/` in Orbita, made by `tool/build_*.py`) | - | The 3D grids of the baked nebulae, downloaded by the app the first time a nebula is approached and kept on the phone. Sources per nebula are in Orbita's NOTICE (Herschel, AKARI, Gaia and published models). **Never replace a file in place**: a rebake goes into `nebulae/2/`, and `1/` stays for the apps that ask for it |
 
+`privacy/` is the app's privacy policy, served at
+https://orbita-data.kruen.app/privacy/ - the address given to the stores.
+Its source is `PRIVACY.md` in Orbita; the page is rebuilt from it by
+`tool/build_privacy_page.py` there, never edited here.
+
 The generators live in the private Orbita repo (`tool/`). Each job checks
 Orbita out with `ORBITA_READ_KEY` (a read-only deploy key there) and pushes
 here with `PAGES_DEPLOY_KEY` (a write deploy key on this repo - a push by
