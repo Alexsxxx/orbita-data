@@ -1,13 +1,14 @@
-# The Sun's coronal magnetic field lines: the newest hourly GONG synoptic
-# magnetogram (NSO), extended by a potential field source surface model
-# and traced, to
+# The Sun's coronal magnetic field lines: SDO/HMI's near-real-time
+# synoptic magnetogram (JSOC), extended by a potential field source
+# surface model and traced, to
 #   https://alexsxxx.github.io/orbita-data/sun-field.json.gz
 # Generator: tool/build_sun_field.py in the private Orbita repo - read its
 # docstring for the method and why it is not pfsspy (GPL).
 #
-# Every three hours: GONG updates its map hourly, but the field's large
-# shape moves over a day, and the app shows nothing older than two days.
-# A run is a few seconds of numpy after a ~240 KB download.
+# Every three hours: JSOC redoes the map once a day at an hour of its
+# own, and the app shows nothing older than two days. A run is a few
+# seconds of numpy after two ~1 MB downloads. (GONG's hourly maps were
+# the first choice; NSO's servers do not answer GitHub runners.)
 name: sun-field
 
 on:
@@ -49,7 +50,7 @@ jobs:
       - name: Install numpy
         run: python3 -m pip install --quiet 'numpy>=2,<3'
 
-      # Exits non-zero without writing when GONG cannot be had or too few
+      # Exits non-zero without writing when HMI's map cannot be had or too few
       # lines trace, so nothing bad is ever published.
       - name: Build sun-field.json.gz
         run: python3 -I orbita/tool/build_sun_field.py pages-repo/sun-field.json.gz
