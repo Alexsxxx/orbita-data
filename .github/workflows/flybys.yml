@@ -1,6 +1,6 @@
 # Flybys: the asteroids passing within ten lunar distances of the Earth
 # from three days ago to a month ahead, to
-#   https://alexsxxx.github.io/orbita-data/flybys.json
+#   https://orbita-data.kruen.app/flybys-v1.json
 # Generator: tool/build_flybys.py in the private Orbita repo - read its
 # docstring for why Horizons' positions come with the orbits.
 #
@@ -43,19 +43,19 @@ jobs:
 
       # Exits non-zero without writing when CNEOS fails or too many bodies
       # cannot be had, so nothing bad is ever published.
-      - name: Build flybys.json
-        run: python3 -I orbita/tool/build_flybys.py pages-repo/flybys.json
+      - name: Build flybys-v1.json
+        run: python3 -I orbita/tool/build_flybys.py pages-repo/flybys-v1.json
 
       - name: Commit & push
         working-directory: pages-repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add flybys.json
-          if git diff --cached --quiet -- flybys.json; then
-            echo "flybys.json unchanged - nothing to publish."
+          git add flybys-v1.json
+          if git diff --cached --quiet -- flybys-v1.json; then
+            echo "flybys-v1.json unchanged - nothing to publish."
           else
-            git commit -m "Update flybys.json ($(date -u +%FT%TZ))"
+            git commit -m "Update flybys-v1.json ($(date -u +%FT%TZ))"
             for try in 1 2 3; do
               git pull --rebase origin main && git push origin HEAD:main && break
               echo "push race, retrying ($try)"

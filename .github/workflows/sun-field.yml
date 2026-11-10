@@ -1,7 +1,7 @@
 # The Sun's coronal magnetic field lines: SDO/HMI's near-real-time
 # synoptic magnetogram (JSOC), extended by a potential field source
 # surface model and traced, to
-#   https://alexsxxx.github.io/orbita-data/sun-field.json.gz
+#   https://orbita-data.kruen.app/sun-field-v1.json.gz
 # Generator: tool/build_sun_field.py in the private Orbita repo - read its
 # docstring for the method and why it is not pfsspy (GPL).
 #
@@ -52,19 +52,19 @@ jobs:
 
       # Exits non-zero without writing when HMI's map cannot be had or too few
       # lines trace, so nothing bad is ever published.
-      - name: Build sun-field.json.gz
-        run: python3 -I orbita/tool/build_sun_field.py pages-repo/sun-field.json.gz
+      - name: Build sun-field-v1.json.gz
+        run: python3 -I orbita/tool/build_sun_field.py pages-repo/sun-field-v1.json.gz
 
       - name: Commit & push
         working-directory: pages-repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add sun-field.json.gz
-          if git diff --cached --quiet -- sun-field.json.gz; then
-            echo "sun-field.json.gz unchanged - nothing to publish."
+          git add sun-field-v1.json.gz
+          if git diff --cached --quiet -- sun-field-v1.json.gz; then
+            echo "sun-field-v1.json.gz unchanged - nothing to publish."
           else
-            git commit -m "Update sun-field.json.gz ($(date -u +%FT%TZ))"
+            git commit -m "Update sun-field-v1.json.gz ($(date -u +%FT%TZ))"
             for try in 1 2 3; do
               git pull --rebase origin main && git push origin HEAD:main && break
               echo "push race, retrying ($try)"

@@ -1,5 +1,5 @@
 # Sky: everything in Earth orbit with public elements, named, to
-#   https://alexsxxx.github.io/orbita-data/sky-v2.bin.gz
+#   https://orbita-data.kruen.app/sky-v2.bin.gz
 # Generator: tool/build_sky_v2.py in the private Orbita repo - read its
 # docstring for the format and what is asked of CelesTrak.
 #

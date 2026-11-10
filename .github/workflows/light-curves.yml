@@ -1,5 +1,5 @@
 # Light curves: TESS transits of the planets Orbita writes about, to
-#   https://alexsxxx.github.io/orbita-data/light_curves.json.gz
+#   https://orbita-data.kruen.app/light_curves-v1.json.gz
 # Generator: tool/build_light_curves.py in the private Orbita repo - its
 # docstring says what is folded, how, and why nothing is fitted.
 #
@@ -40,19 +40,19 @@ jobs:
           ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
           path: pages-repo
 
-      - name: Build light_curves.json.gz
-        run: python3 -I orbita/tool/build_light_curves.py pages-repo/light_curves.json.gz
+      - name: Build light_curves-v1.json.gz
+        run: python3 -I orbita/tool/build_light_curves.py pages-repo/light_curves-v1.json.gz
 
       - name: Commit & push
         working-directory: pages-repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add light_curves.json.gz
-          if git diff --cached --quiet -- light_curves.json.gz; then
-            echo "light_curves.json.gz unchanged - nothing to publish."
+          git add light_curves-v1.json.gz
+          if git diff --cached --quiet -- light_curves-v1.json.gz; then
+            echo "light_curves-v1.json.gz unchanged - nothing to publish."
           else
-            git commit -m "Update light_curves.json.gz ($(date -u +%FT%TZ))"
+            git commit -m "Update light_curves-v1.json.gz ($(date -u +%FT%TZ))"
             for try in 1 2 3; do
               git pull --rebase origin main && git push origin HEAD:main && break
               echo "push race, retrying ($try)"

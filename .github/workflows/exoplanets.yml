@@ -1,5 +1,5 @@
 # Exoplanets: every confirmed planet and its host, to
-#   https://alexsxxx.github.io/orbita-data/exoplanets.json.gz
+#   https://orbita-data.kruen.app/exoplanets-v1.json.gz
 # Generator: tool/build_exoplanets.py in the private Orbita repo - read its
 # docstring for what is kept and why every value carries its source.
 #
@@ -42,28 +42,28 @@ jobs:
 
       # Last week's catalogue, for what is new in this one.
       - name: Keep last week's catalogue
-        run: cp pages-repo/exoplanets.json.gz last-week.json.gz || true
+        run: cp pages-repo/exoplanets-v1.json.gz last-week.json.gz || true
 
       # Exits non-zero without writing when the archive fails or answers
       # with too few planets, so nothing bad is ever published.
-      - name: Build exoplanets.json.gz
-        run: python3 -I orbita/tool/build_exoplanets.py pages-repo/exoplanets.json.gz
+      - name: Build exoplanets-v1.json.gz
+        run: python3 -I orbita/tool/build_exoplanets.py pages-repo/exoplanets-v1.json.gz
 
       # The planets in this week's catalogue that were not in last week's,
       # added to the list kept (tool/build_exoplanets_new.py).
-      - name: Update exoplanets_new.json
-        run: python3 -I orbita/tool/build_exoplanets_new.py last-week.json.gz pages-repo/exoplanets.json.gz pages-repo/exoplanets_new.json
+      - name: Update exoplanets_new-v1.json
+        run: python3 -I orbita/tool/build_exoplanets_new.py last-week.json.gz pages-repo/exoplanets-v1.json.gz pages-repo/exoplanets_new-v1.json
 
       - name: Commit & push
         working-directory: pages-repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add exoplanets.json.gz exoplanets_new.json
-          if git diff --cached --quiet -- exoplanets.json.gz exoplanets_new.json; then
-            echo "exoplanets.json.gz unchanged - nothing to publish."
+          git add exoplanets-v1.json.gz exoplanets_new-v1.json
+          if git diff --cached --quiet -- exoplanets-v1.json.gz exoplanets_new-v1.json; then
+            echo "exoplanets-v1.json.gz unchanged - nothing to publish."
           else
-            git commit -m "Update exoplanets.json.gz and exoplanets_new.json ($(date -u +%FT%TZ))"
+            git commit -m "Update exoplanets-v1.json.gz and exoplanets_new-v1.json ($(date -u +%FT%TZ))"
             for try in 1 2 3; do
               git pull --rebase origin main && git push origin HEAD:main && break
               echo "push race, retrying ($try)"

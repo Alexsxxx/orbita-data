@@ -1,5 +1,5 @@
 # JWST: what the James Webb Space Telescope observes this week and next, to
-#   https://alexsxxx.github.io/orbita-data/jwst.json
+#   https://orbita-data.kruen.app/jwst-v1.json
 # Generator: tool/build_jwst.py in the private Orbita repo - read its
 # docstring for where the positions come from and which are left empty.
 #
@@ -42,19 +42,19 @@ jobs:
 
       # Exits non-zero without writing when the schedule cannot be had, so
       # nothing bad is ever published.
-      - name: Build jwst.json
-        run: python3 -I orbita/tool/build_jwst.py pages-repo/jwst.json
+      - name: Build jwst-v1.json
+        run: python3 -I orbita/tool/build_jwst.py pages-repo/jwst-v1.json
 
       - name: Commit & push
         working-directory: pages-repo
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add jwst.json
-          if git diff --cached --quiet -- jwst.json; then
-            echo "jwst.json unchanged - nothing to publish."
+          git add jwst-v1.json
+          if git diff --cached --quiet -- jwst-v1.json; then
+            echo "jwst-v1.json unchanged - nothing to publish."
           else
-            git commit -m "Update jwst.json ($(date -u +%FT%TZ))"
+            git commit -m "Update jwst-v1.json ($(date -u +%FT%TZ))"
             for try in 1 2 3; do
               git pull --rebase origin main && git push origin HEAD:main && break
               echo "push race, retrying ($try)"
