@@ -18,6 +18,7 @@ the app asks this site, never the upstream archives per device.
 | `fireballs.json` | `fireballs.yml` | daily, 06:50 UTC | NASA/JPL CNEOS fireball data (bolides reported by US government sensors since 1988, with a place) |
 | `radio.json.gz` | `radio.yml` | Tuesdays, 05:30 UTC | Internet radio stations from [Radio Browser](https://www.radio-browser.info) (public domain), placed by their own coordinates or, approximately, by the city or region they name, matched against [GeoNames](https://www.geonames.org) (CC BY 4.0) |
 | `sky-v2.bin.gz` | `sky.yml` | daily, 05:20 UTC | Everything in Earth orbit with public elements, named - [CelesTrak](https://celestrak.org) GP data (active satellites and the Fengyun 1C, Iridium 33 and Cosmos 2251 debris clouds) |
+| `sun-field.json.gz` | `sun-field.yml` | every 3 h, at :25 | The Sun's coronal field lines: the newest [NSO/GONG](https://gong.nso.edu) synoptic magnetogram ("This work utilizes GONG data obtained by the NSO Integrated Synoptic Program, managed by the National Solar Observatory, operated by AURA under a cooperative agreement with the NSF"), extended by a PFSS model and traced |
 
 The generators live in the private Orbita repo (`tool/`). Each job checks
 Orbita out with `ORBITA_READ_KEY` (a read-only deploy key there) and pushes
