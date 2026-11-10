@@ -1,7 +1,8 @@
 # orbita-data
 
 The data the Orbita app reads, published here by scheduled jobs and served by
-GitHub Pages at https://alexsxxx.github.io/orbita-data/. One file per feed;
+GitHub Pages at https://orbita-data.kruen.app/ (the site's custom domain since
+2026-11-10, a CNAME at Cloudflare; the old github.io address redirects). One file per feed;
 the app asks this site, never the upstream archives per device.
 
 | File | Job | Schedule | Source |
@@ -19,6 +20,7 @@ the app asks this site, never the upstream archives per device.
 | `radio.json.gz` | `radio.yml` | Tuesdays, 05:30 UTC | Internet radio stations from [Radio Browser](https://www.radio-browser.info) (public domain), placed by their own coordinates or, approximately, by the city or region they name, matched against [GeoNames](https://www.geonames.org) (CC BY 4.0) |
 | `sky-v2.bin.gz` | `sky.yml` | daily, 05:20 UTC | Everything in Earth orbit with public elements, named - [CelesTrak](https://celestrak.org) GP data (active satellites and the Fengyun 1C, Iridium 33 and Cosmos 2251 debris clouds) |
 | `sun-field.json.gz` | `sun-field.yml` | every 3 h, at :25 | The Sun's coronal field lines: [SDO/HMI](http://jsoc.stanford.edu)'s near-real-time synoptic magnetogram (NASA/SDO and the HMI science team), extended by a PFSS model and traced |
+| `nebulae/1/*.bin` | by hand (`published/nebulae/` in Orbita, made by `tool/build_*.py`) | - | The 3D grids of the baked nebulae, downloaded by the app the first time a nebula is approached and kept on the phone. Sources per nebula are in Orbita's NOTICE (Herschel, AKARI, Gaia and published models). **Never replace a file in place**: a rebake goes into `nebulae/2/`, and `1/` stays for the apps that ask for it |
 
 The generators live in the private Orbita repo (`tool/`). Each job checks
 Orbita out with `ORBITA_READ_KEY` (a read-only deploy key there) and pushes
