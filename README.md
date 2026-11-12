@@ -19,6 +19,7 @@ the app asks this site, never the upstream archives per device.
 | `fireballs-v1.json` | `fireballs.yml` | daily, 06:50 UTC | NASA/JPL CNEOS fireball data (bolides reported by US government sensors since 1988, with a place) |
 | `radio-v1.json.gz` | `radio.yml` | Tuesdays, 05:30 UTC | Internet radio stations from [Radio Browser](https://www.radio-browser.info) (public domain), placed by their own coordinates or, approximately, by the city or region they name, matched against [GeoNames](https://www.geonames.org) (CC BY 4.0) |
 | `sky-v2.bin.gz` | `sky.yml` | daily, 05:20 UTC | Everything in Earth orbit with public elements, named - [CelesTrak](https://celestrak.org) GP data (active satellites and the Fengyun 1C, Iridium 33 and Cosmos 2251 debris clouds) |
+| `constellations-v1.json` | by hand, whenever the app's copy is rebuilt (`tool/build_constellations.py`) | - | The constellation figures the app ships inside it (`assets/galaxy/constellations.json`), published here free of DRM because they are **CC BY-SA**: adapted from Stellarium's western sky culture, with Hipparcos, Gaia DR3 and Pulkovo distances and motions. Licence and credits in `constellations-v1.LICENSE.txt`. Not read by the app |
 | `sun-field-v1.json.gz` | `sun-field.yml` | every 3 h, at :25 | The Sun's coronal field lines: [SDO/HMI](http://jsoc.stanford.edu)'s near-real-time synoptic magnetogram (NASA/SDO and the HMI science team), extended by a PFSS model and traced |
 
 **Every file carries its format's version in its name** (`-v1`, `-v2`...),

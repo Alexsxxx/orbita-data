@@ -1,0 +1,20 @@
+constellations-v1.json - the constellation figures drawn by the Orbita app
+
+Licensed under Creative Commons Attribution-ShareAlike (CC BY-SA),
+https://creativecommons.org/licenses/by-sa/4.0/
+
+It is an adaptation of the figures of Stellarium's "western" sky culture,
+by the Stellarium team, text and data CC BY-SA
+(https://github.com/Stellarium/stellarium-skycultures, commit 92df9e4c,
+western/index.json). Changes: the figures' lines are kept as pairs of
+Hipparcos numbers, and each star is given its position, distance and motion
+from the Hipparcos new reduction (van Leeuwen 2007), ESA's Gaia DR3 ("This
+work has made use of data from the European Space Agency (ESA) mission
+Gaia, processed by the Gaia Data Processing and Analysis Consortium
+(DPAC)"), the Pulkovo compilation of radial velocities (Gontcharov 2006,
+CDS III/252) and the Gaia RV standards (Soubiran et al. 2018). Built by
+tool/build_constellations.py in https://github.com/Alexsxxx/Orbita.
+
+This is the same file the app ships inside it. It is published here, free
+of any technical restriction, so that anyone who receives it in the app can
+also have it on the terms of its licence.
