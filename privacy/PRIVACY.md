@@ -1,6 +1,6 @@
 # Privacy Policy — Orbita
 
-_Last updated: 10 November 2026_
+_Last updated: 12 November 2026_
 
 Orbita ("the app") is a space explorer: the Earth, the satellites over it,
 the solar system and the galaxies, drawn from public scientific data. It is
@@ -20,8 +20,9 @@ The app has **no accounts, no analytics, no advertising, and no tracking**.
 The developer does not collect, store, or share any personal information
 about you. What the app keeps on your device is your in-app settings (the
 language, the layers you switched on, your favourite radio stations, where
-you last were in the solar system) and copies of files it has downloaded, so
-it need not download them again. None of it leaves the device.
+you last were in the solar system, when your free trial began and whether
+you bought the full version) and copies of files it has downloaded, so it
+need not download them again. None of it leaves the device.
 
 ## Network connections
 
@@ -34,9 +35,13 @@ your device.
   catalogue, the stars and dust round the Sun, asteroid flybys, fireballs,
   the Sun's magnetic field, the James Webb telescope's schedule and the
   directory of internet radio stations are downloaded from the developer's
-  static site (`orbita-data.kruen.app`, hosted on GitHub Pages). They are the same
-  files for every user. The developer has no access to that site's visitor
-  logs.
+  static site (`orbita-data.kruen.app`, hosted on GitHub Pages and served
+  through Cloudflare). The three-dimensional nebulae are downloaded, the
+  first time you fly to one, from the developer's file storage
+  (`orbita-files.kruen.app`, Cloudflare R2). They are the same files for
+  every user. The developer sees only Cloudflare's aggregate traffic
+  statistics (such as the number of requests per day), not logs of
+  individual visitors.
 - **Earth imagery** — the satellite ground and the city lights download
   imagery tiles from NASA GIBS (`gibs.earthdata.nasa.gov`) for the part of
   the world on screen; the cloud layer downloads whole-planet cloud pictures
@@ -84,8 +89,16 @@ The developer does not receive or log any of this traffic.
 
 ## Purchases
 
-Buying the app is handled by Google Play or the App Store under their own
-privacy policies. The developer receives no payment details.
+The app is free to download. For seven days everything in it is open; after
+that the globe and the internet radio stay free, and the rest can be
+unlocked by a one-time in-app purchase. On iOS the free week is started by
+taking a free "7-day Trial" item in the App Store.
+
+Purchases, and restoring them on a new device, are handled entirely by
+Google Play or the App Store under their own privacy policies. The app only
+learns from the store whether the full version (or the trial) is owned, and
+remembers that on the device. The developer receives no payment details and
+no information about who bought what.
 
 ## Children
 
