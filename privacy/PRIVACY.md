@@ -91,12 +91,15 @@ The developer does not receive or log any of this traffic.
 
 The app is free to download. For seven days everything in it is open; after
 that the globe and the internet radio stay free, and the rest can be
-unlocked by a one-time in-app purchase. On iOS the free week is started by
-taking a free "7-day Trial" item in the App Store.
+unlocked by a one-time in-app purchase. The free week starts when the app
+is first opened. On iOS the date it started is also kept in the device's
+Keychain, which stays on the device when the app is deleted, so that
+reinstalling does not start a new week; it is kept only on that device,
+not synced to iCloud, and never sent anywhere.
 
 Purchases, and restoring them on a new device, are handled entirely by
 Google Play or the App Store under their own privacy policies. The app only
-learns from the store whether the full version (or the trial) is owned, and
+learns from the store whether the full version is owned, and
 remembers that on the device. The developer receives no payment details and
 no information about who bought what.
 
