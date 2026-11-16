@@ -1,6 +1,6 @@
 # Privacy Policy — Orbita
 
-_Last updated: 12 November 2026_
+_Last updated: 16 November 2026_
 
 Orbita ("the app") is a space explorer: the Earth, the satellites over it,
 the solar system and the galaxies, drawn from public scientific data. It is
@@ -29,7 +29,8 @@ need not download them again. None of it leaves the device.
 To draw what it shows, the app downloads public data. Every one of these is
 an ordinary web request: the server at the other end sees your IP address,
 as any website you visit does. No request carries an identifier of you or of
-your device.
+your device - with one exception, the live video from the space station,
+which is YouTube's player and is described below.
 
 - **The developer's own data files** — satellite orbits, the exoplanet
   catalogue, the stars and dust round the Sun, asteroid flybys, fireballs,
@@ -66,6 +67,19 @@ your device.
   over plain, unencrypted http; this is the only unencrypted traffic the app
   makes. The app does not contact the Radio Browser directory itself - the
   station list reaches it through the developer's data files above.
+- **Live video from the International Space Station** — the Earth map can
+  show NASA's live video from the station. It is a YouTube broadcast, shown
+  in YouTube's own embedded player inside the app. Nothing is requested
+  from YouTube until you open the video's window. When you do, the player
+  is loaded from YouTube (`www.youtube.com`, a Google service): Google
+  receives your IP address and the name of this app, may store cookies and
+  similar data in the app's web view, and handles what it learns under the
+  Google Privacy Policy (`policies.google.com/privacy`). What the
+  player shows and does is YouTube's, under the
+  YouTube Terms of Service (`www.youtube.com/t/terms`). The app does
+  not sign you in to YouTube and tells it nothing about you. Which
+  broadcast is live reaches the app through the developer's data files
+  above.
 
 The developer does not receive or log any of this traffic.
 

@@ -25,7 +25,7 @@
 </head>
 <body>
 <h1>Privacy Policy — Orbita</h1>
-<p class="updated">Last updated: 12 November 2026</p>
+<p class="updated">Last updated: 16 November 2026</p>
 <p>Orbita ("the app") is a space explorer: the Earth, the satellites over it, the solar system and the galaxies, drawn from public scientific data. It is published by <strong>Kruen s.r.o.</strong> This policy explains what data the app does and does not handle.</p>
 <p>The publisher, and the data controller for the purposes of the GDPR, is:</p>
 <p class="address"><strong>Kruen s.r.o.</strong><br>
@@ -35,7 +35,7 @@ info@kruen.cz</p>
 <h2>We do not collect personal data</h2>
 <p>The app has <strong>no accounts, no analytics, no advertising, and no tracking</strong>. The developer does not collect, store, or share any personal information about you. What the app keeps on your device is your in-app settings (the language, the layers you switched on, your favourite radio stations, where you last were in the solar system, when your free trial began and whether you bought the full version) and copies of files it has downloaded, so it need not download them again. None of it leaves the device.</p>
 <h2>Network connections</h2>
-<p>To draw what it shows, the app downloads public data. Every one of these is an ordinary web request: the server at the other end sees your IP address, as any website you visit does. No request carries an identifier of you or of your device.</p>
+<p>To draw what it shows, the app downloads public data. Every one of these is an ordinary web request: the server at the other end sees your IP address, as any website you visit does. No request carries an identifier of you or of your device - with one exception, the live video from the space station, which is YouTube's player and is described below.</p>
 <ul>
   <li><strong>The developer's own data files</strong> — satellite orbits, the exoplanet catalogue, the stars and dust round the Sun, asteroid flybys, fireballs, the Sun's magnetic field, the James Webb telescope's schedule and the directory of internet radio stations are downloaded from the developer's static site (<code>orbita-data.kruen.app</code>, hosted on GitHub Pages and served through Cloudflare). The three-dimensional nebulae are downloaded, the first time you fly to one, from the developer's file storage (<code>orbita-files.kruen.app</code>, Cloudflare R2). They are the same files for every user. The developer sees only Cloudflare's aggregate traffic statistics (such as the number of requests per day), not logs of individual visitors.</li>
   <li><strong>Earth imagery</strong> — the satellite ground and the city lights download imagery tiles from NASA GIBS (<code>gibs.earthdata.nasa.gov</code>) for the part of the world on screen; the cloud layer downloads whole-planet cloud pictures from EUMETSAT (<code>view.eumetsat.int</code>); the aurora layer downloads NOAA's forecast (<code>services.swpc.noaa.gov</code>).</li>
@@ -44,6 +44,7 @@ info@kruen.cz</p>
   <li><strong>Deep Space Network</strong> — which antennas are talking to which spacecraft comes from NASA/JPL's DSN Now (<code>eyes.nasa.gov</code>).</li>
   <li><strong>Photographs on cards</strong> — the photograph on an object's card is downloaded from Wikimedia Commons (<code>upload.wikimedia.org</code>, <code>thumb.wikimedia.org</code>). The request says which picture was asked for.</li>
   <li><strong>Internet radio</strong> — when you play a station, your device connects directly to that station's own streaming server, which is operated by the broadcaster and not by the developer. About a third of stations stream over plain, unencrypted http; this is the only unencrypted traffic the app makes. The app does not contact the Radio Browser directory itself - the station list reaches it through the developer's data files above.</li>
+  <li><strong>Live video from the International Space Station</strong> — the Earth map can show NASA's live video from the station. It is a YouTube broadcast, shown in YouTube's own embedded player inside the app. Nothing is requested from YouTube until you open the video's window. When you do, the player is loaded from YouTube (<code>www.youtube.com</code>, a Google service): Google receives your IP address and the name of this app, may store cookies and similar data in the app's web view, and handles what it learns under the Google Privacy Policy (<code>policies.google.com/privacy</code>). What the player shows and does is YouTube's, under the YouTube Terms of Service (<code>www.youtube.com/t/terms</code>). The app does not sign you in to YouTube and tells it nothing about you. Which broadcast is live reaches the app through the developer's data files above.</li>
 </ul>
 <p>The developer does not receive or log any of this traffic.</p>
 <h2>Permissions</h2>
