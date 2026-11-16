@@ -1,0 +1,67 @@
+# ISS live: which of NASA's live video streams from the International Space
+# Station are on the air, to
+#   https://orbita-data.kruen.app/iss-live-v1.json
+# Generator: tool/build_iss_live.py in the private Orbita repo - read its
+# docstring for why two video ids need a job and what makes a stream listed.
+#
+# Hourly: a stream's id changes whenever NASA restarts it, and the app
+# offers the stream only while this file is fresh (six hours). A few page
+# reads, seconds. Python standard library only.
+#
+# The file's `fetched` moves on every run, so every run publishes: that
+# stamp is what tells the app the job is still looking.
+name: iss-live
+
+on:
+  schedule:
+    - cron: '45 * * * *'
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout Orbita (generator lives here)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/Orbita
+          ssh-key: ${{ secrets.ORBITA_READ_KEY }}
+          path: orbita
+          sparse-checkout: tool
+
+      - name: Checkout orbita-data (publish target)
+        uses: actions/checkout@v4
+        with:
+          repository: Alexsxxx/orbita-data
+          ssh-key: ${{ secrets.PAGES_DEPLOY_KEY }}
+          path: pages-repo
+
+      # Exits non-zero without writing when YouTube does not say whether a
+      # stream is live, so "live" is never published on a guess.
+      - name: Build iss-live-v1.json
+        run: python3 -I orbita/tool/build_iss_live.py pages-repo/iss-live-v1.json
+
+      - name: Commit & push
+        working-directory: pages-repo
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add iss-live-v1.json
+          if git diff --cached --quiet -- iss-live-v1.json; then
+            echo "iss-live-v1.json unchanged - nothing to publish."
+          else
+            git commit -m "Update iss-live-v1.json ($(date -u +%FT%TZ))"
+            for try in 1 2 3; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              echo "push race, retrying ($try)"
+              sleep 10
+            done
+          fi
