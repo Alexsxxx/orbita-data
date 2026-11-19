@@ -12,8 +12,9 @@
 name: sun-field
 
 on:
-  schedule:
-    - cron: '25 */3 * * *'
+  # Started by the orbita-cron Worker on Cloudflare at '25 */3 * * *' UTC
+  # (Orbita's tool/cron_worker), not by GitHub's schedule, which ran
+  # an hourly job only every five to nine hours (2026-11-19).
   workflow_dispatch: {}
 
 permissions:
